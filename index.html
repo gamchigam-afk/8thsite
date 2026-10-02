@@ -1,0 +1,1499 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>SCROLL</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
+html,body{
+  margin:0;
+  padding:0;
+  background:#ededed;
+  color:#171717;
+  font-family:Arial,"Noto Sans KR",sans-serif;
+}
+
+body{
+  overflow-x:hidden;
+}
+
+/* =========================
+   TOP
+========================= */
+
+#top{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  height:58px;
+  z-index:1000;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  padding:0 20px;
+  background:rgba(255,255,255,.94);
+  border-bottom:1px solid #ddd;
+  backdrop-filter:blur(12px);
+}
+
+.logo{
+  font-size:20px;
+  font-weight:900;
+  letter-spacing:3px;
+}
+
+#pageCounter{
+  font-size:13px;
+  color:#777;
+  font-weight:bold;
+}
+
+/* =========================
+   START
+========================= */
+
+#startScreen,
+#endScreen{
+  position:fixed;
+  inset:0;
+  z-index:2000;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  background:#f4f4f4;
+}
+
+.startBox,
+.endBox{
+  width:min(90%,520px);
+  text-align:center;
+}
+
+.startBox h1,
+.endBox h1{
+  margin:0 0 15px;
+  font-size:58px;
+  letter-spacing:8px;
+}
+
+.startBox p,
+.endBox p{
+  color:#777;
+  line-height:1.7;
+}
+
+.startBox button,
+.endBox button{
+  margin-top:25px;
+  padding:15px 40px;
+  border:0;
+  border-radius:8px;
+  background:#171717;
+  color:#fff;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.startBox button:hover,
+.endBox button:hover{
+  transform:translateY(-2px);
+}
+
+/* =========================
+   GAME
+========================= */
+
+#game{
+  display:none;
+  padding-top:78px;
+  padding-bottom:105px;
+}
+
+#page{
+  width:min(760px,calc(100% - 24px));
+  margin:auto;
+  min-height:1400px;
+
+  background:#fff;
+  box-shadow:0 5px 25px rgba(0,0,0,.08);
+}
+
+/* =========================
+   AD PAGE
+========================= */
+
+.adHeader{
+  padding:28px 30px;
+  border-bottom:1px solid #eee;
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.brand{
+  font-size:21px;
+  font-weight:900;
+}
+
+.adTag{
+  font-size:11px;
+  color:#999;
+}
+
+.hero{
+  padding:42px 30px 35px;
+}
+
+.hero h2{
+  margin:0 0 12px;
+  font-size:38px;
+  line-height:1.15;
+}
+
+.hero p{
+  color:#777;
+  line-height:1.7;
+}
+
+.heroImage{
+  position:relative;
+  height:320px;
+  margin-top:28px;
+  overflow:hidden;
+  border-radius:15px;
+  background:
+    linear-gradient(135deg,#d8d8d8,#f3f3f3);
+}
+
+.fakePerson{
+  position:absolute;
+  bottom:0;
+  left:50%;
+  transform:translateX(-50%);
+  width:135px;
+  height:220px;
+  background:#222;
+  border-radius:70px 70px 15px 15px;
+}
+
+.fakeHead{
+  position:absolute;
+  top:-72px;
+  left:25px;
+  width:85px;
+  height:85px;
+  border-radius:50%;
+  background:#d7b08d;
+}
+
+.fakeEye{
+  position:absolute;
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:#111;
+  top:33px;
+}
+
+.eye1{left:22px;}
+.eye2{right:22px;}
+
+.fakeMouth{
+  position:absolute;
+  width:25px;
+  height:4px;
+  background:#222;
+  left:30px;
+  top:57px;
+  border-radius:10px;
+}
+
+/* =========================
+   CONTENT
+========================= */
+
+.section{
+  padding:35px 30px;
+  border-top:1px solid #eee;
+}
+
+.section h3{
+  margin:0 0 20px;
+  font-size:21px;
+}
+
+.cards{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+}
+
+.card{
+  min-height:180px;
+  padding:18px;
+  border:1px solid #e5e5e5;
+  border-radius:12px;
+  background:#fafafa;
+}
+
+.cardImage{
+  height:80px;
+  border-radius:9px;
+  margin-bottom:13px;
+  background:linear-gradient(135deg,#ddd,#f1f1f1);
+}
+
+.card h4{
+  margin:0 0 8px;
+}
+
+.card p{
+  margin:0;
+  color:#888;
+  font-size:13px;
+  line-height:1.5;
+}
+
+.price{
+  margin-top:12px;
+  font-size:18px;
+  font-weight:900;
+}
+
+.review{
+  padding:18px;
+  margin-bottom:10px;
+  border-radius:10px;
+  background:#f7f7f7;
+}
+
+.stars{
+  color:#111;
+  letter-spacing:2px;
+  margin-bottom:7px;
+}
+
+.review p{
+  margin:0;
+  line-height:1.6;
+  font-size:14px;
+}
+
+.bigAd{
+  margin-top:15px;
+  padding:45px 25px;
+  border-radius:15px;
+  text-align:center;
+  background:#111;
+  color:white;
+}
+
+.bigAd h3{
+  margin-bottom:8px;
+}
+
+.bigAd p{
+  color:#bbb;
+}
+
+.buyBtn{
+  display:inline-block;
+  margin-top:15px;
+  padding:12px 22px;
+  border-radius:7px;
+  background:#fff;
+  color:#111;
+  font-weight:bold;
+}
+
+.footer{
+  padding:35px 30px;
+  background:#fafafa;
+  color:#999;
+  font-size:12px;
+  line-height:1.7;
+}
+
+/* =========================
+   CONTROLS
+========================= */
+
+#controls{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  z-index:1000;
+
+  display:flex;
+  justify-content:center;
+  gap:10px;
+
+  padding:14px;
+  background:rgba(255,255,255,.95);
+  border-top:1px solid #ddd;
+  backdrop-filter:blur(12px);
+}
+
+.controlBtn{
+  min-width:145px;
+  padding:14px 20px;
+
+  border:1px solid #ddd;
+  border-radius:9px;
+
+  background:#fff;
+  color:#171717;
+
+  font-size:14px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.controlBtn.next{
+  background:#171717;
+  color:#fff;
+}
+
+.controlBtn:active{
+  transform:scale(.97);
+}
+
+.controlBtn:disabled{
+  opacity:.35;
+  cursor:not-allowed;
+}
+
+/* =========================
+   MESSAGE
+========================= */
+
+#message{
+  position:fixed;
+  left:50%;
+  bottom:95px;
+  transform:translateX(-50%);
+
+  z-index:1500;
+
+  padding:12px 18px;
+  border-radius:9px;
+
+  background:#171717;
+  color:#fff;
+
+  font-size:13px;
+  font-weight:bold;
+
+  opacity:0;
+  pointer-events:none;
+  transition:.25s;
+}
+
+#message.show{
+  opacity:1;
+}
+
+/* =========================
+   ANOMALIES
+========================= */
+
+/* 1. 빨간 배지 */
+.anomaly-red .adTag{
+  color:#e00000;
+  font-weight:900;
+}
+
+/* 2. 카드 하나 사라짐 */
+.anomaly-missing .card:nth-child(2){
+  display:none;
+}
+
+/* 3. 카드 하나 추가 */
+.anomaly-extra .cards::after{
+  content:"NEW";
+  min-height:180px;
+  padding:18px;
+  border:2px solid #111;
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:900;
+}
+
+/* 4. 이상한 가격 */
+.anomaly-price .price{
+  color:#e00000;
+  font-size:27px;
+}
+
+.anomaly-price .price::after{
+  content:"";
+}
+
+/* 5. 리뷰 이상 */
+.anomaly-review .review:nth-child(2) p{
+  font-weight:bold;
+}
+
+/* 6. 버튼 이상 */
+.anomaly-button .buyBtn{
+  background:#e00000;
+  color:#fff;
+}
+
+/* 7. 제목 이상 */
+.anomaly-title .hero h2{
+  letter-spacing:12px;
+}
+
+/* 8. 별점 이상 */
+.anomaly-stars .stars{
+  letter-spacing:8px;
+}
+
+/* 9. 광고 이상 */
+.anomaly-dark .bigAd{
+  background:#000;
+}
+
+/* 10. 이미지 이상 */
+.anomaly-image .heroImage{
+  filter:contrast(1.5);
+}
+
+/* 11. 글꼴 이상 */
+.anomaly-font{
+  font-family:Georgia,"Times New Roman",serif;
+}
+
+/* 12. 순서 이상 */
+.anomaly-reverse .cards{
+  direction:rtl;
+}
+
+/* 13. 빈 공간 */
+.anomaly-empty .section:nth-of-type(2){
+  min-height:300px;
+}
+
+/* 14. 리뷰 중복 */
+.anomaly-duplicate .review:nth-child(2){
+  border:2px solid #111;
+}
+
+/* 15. 글씨 작아짐 */
+.anomaly-small .section:nth-of-type(1){
+  font-size:8px;
+}
+
+/* 16. 빨간 글씨 */
+.anomaly-redtext .section h3{
+  color:#e00000;
+}
+
+/* 17. 푸터 이상 */
+.anomaly-footer .footer{
+  background:#111;
+  color:#fff;
+}
+
+/* 18. 숫자 */
+.anomaly-number .brand::after{
+  content:" 404";
+  color:#e00000;
+}
+
+/* 19. 질문 */
+.anomaly-question .footer::after{
+  content:"보고 있나요?";
+  display:block;
+  margin-top:20px;
+  color:#e00000;
+  font-size:20px;
+  font-weight:900;
+}
+
+/* 20. 얼굴 */
+.anomaly-face .heroImage::after{
+  content:"";
+  position:absolute;
+  width:90px;
+  height:90px;
+  border-radius:50%;
+  background:#111;
+  top:35px;
+  right:40px;
+  box-shadow:
+    25px 30px 0 -35px white,
+    -25px 30px 0 -35px white;
+}
+
+/* =========================
+   SCROLL ANOMALIES
+========================= */
+
+.scroll-anomaly{
+  display:none;
+}
+
+.revealed .scroll-anomaly{
+  display:block;
+}
+
+/* 사람 사라짐 */
+.scroll-person-gone .fakePerson{
+  display:none;
+}
+
+/* 이상 문구 */
+.scroll-strange-text{
+  padding:20px;
+  margin-top:20px;
+  border:2px solid #111;
+  color:#111;
+  font-weight:900;
+  text-align:center;
+}
+
+/* 화면 흔들림 */
+.screen-shake{
+  animation:shake .12s linear 5;
+}
+
+@keyframes shake{
+  0%{transform:translate(0)}
+  25%{transform:translate(4px,-2px)}
+  50%{transform:translate(-4px,2px)}
+  75%{transform:translate(2px,3px)}
+  100%{transform:translate(0)}
+}
+
+/* 깜빡임 */
+.screen-flash{
+  animation:flash .7s;
+}
+
+@keyframes flash{
+  0%,100%{opacity:1}
+  50%{opacity:.2}
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:600px){
+
+  #top{
+    padding:0 14px;
+  }
+
+  .logo{
+    font-size:17px;
+  }
+
+  .hero{
+    padding:30px 20px;
+  }
+
+  .hero h2{
+    font-size:29px;
+  }
+
+  .heroImage{
+    height:250px;
+  }
+
+  .section{
+    padding:28px 20px;
+  }
+
+  .cards{
+    grid-template-columns:1fr;
+  }
+
+  .footer{
+    padding:30px 20px;
+  }
+
+  #controls{
+    padding:10px;
+  }
+
+  .controlBtn{
+    min-width:0;
+    flex:1;
+    padding:13px 8px;
+  }
+
+  .startBox h1,
+  .endBox h1{
+    font-size:43px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- =========================
+     TOP
+========================= -->
+
+<div id="top">
+  <div class="logo">SCROLL</div>
+  <div id="pageCounter">PAGE 0 / 8</div>
+</div>
+
+<!-- =========================
+     START
+========================= -->
+
+<div id="startScreen">
+  <div class="startBox">
+    <h1>SCROLL</h1>
+
+    <p>
+      광고 페이지를 끝까지 확인하세요.<br>
+      이상현상이 있다면 뒤로가기.<br>
+      아무 이상이 없다면 다음 페이지.
+    </p>
+
+    <button onclick="startGame()">START</button>
+  </div>
+</div>
+
+<!-- =========================
+     GAME
+========================= -->
+
+<div id="game">
+
+  <div id="page"></div>
+
+</div>
+
+<!-- =========================
+     CONTROLS
+========================= -->
+
+<div id="controls" style="display:none">
+
+  <button
+    id="backBtn"
+    class="controlBtn"
+    onclick="answer(true)"
+  >
+    ← 뒤로가기
+  </button>
+
+  <button
+    id="nextBtn"
+    class="controlBtn next"
+    onclick="answer(false)"
+  >
+    다음 페이지 →
+  </button>
+
+</div>
+
+<!-- =========================
+     MESSAGE
+========================= -->
+
+<div id="message"></div>
+
+<!-- =========================
+     END
+========================= -->
+
+<div id="endScreen" style="display:none">
+
+  <div class="endBox">
+
+    <h1>EXIT</h1>
+
+    <p>
+      모든 페이지를 통과했습니다.<br>
+      이상현상을 정확하게 찾아냈습니다.
+    </p>
+
+    <button onclick="location.reload()">
+      다시 시작
+    </button>
+
+  </div>
+
+</div>
+
+<script>
+
+/* =========================================================
+   SETTINGS
+========================================================= */
+
+const MAX_PAGE = 8;
+
+let pageNumber = 0;
+let currentAnomaly = false;
+let currentAnomalyType = -1;
+let scrollTriggered = false;
+let gameStarted = false;
+
+/*
+  0 = 일반
+  1~20 = 이상현상
+*/
+
+const ANOMALY_NAMES = [
+  "빨간 배지",
+  "사라진 카드",
+  "추가된 카드",
+  "이상한 가격",
+  "이상한 리뷰",
+  "이상한 버튼",
+  "이상한 제목",
+  "이상한 별점",
+  "어두워진 광고",
+  "이상한 이미지",
+  "이상한 글꼴",
+  "뒤집힌 카드",
+  "비어 있는 공간",
+  "중복된 리뷰",
+  "이상하게 작은 글씨",
+  "붉어진 글씨",
+  "이상한 푸터",
+  "이상한 숫자",
+  "이상한 문장",
+  "얼굴"
+];
+
+
+/* =========================================================
+   START
+========================================================= */
+
+function startGame(){
+
+  gameStarted = true;
+
+  document.getElementById("startScreen").style.display="none";
+  document.getElementById("game").style.display="block";
+  document.getElementById("controls").style.display="flex";
+
+  pageNumber = 0;
+
+  loadPage();
+
+}
+
+
+/* =========================================================
+   LOAD PAGE
+========================================================= */
+
+function loadPage(){
+
+  window.scrollTo({
+    top:0,
+    behavior:"instant"
+  });
+
+  scrollTriggered = false;
+
+  const page = document.getElementById("page");
+
+  page.className="";
+  page.innerHTML="";
+
+  document.getElementById("pageCounter").textContent =
+    `PAGE ${pageNumber} / ${MAX_PAGE}`;
+
+  /*
+    페이지 0은 항상 정상
+  */
+
+  if(pageNumber === 0){
+
+    currentAnomaly = false;
+    currentAnomalyType = -1;
+
+  }else{
+
+    /*
+      약 50% 확률로 이상현상
+    */
+
+    currentAnomaly = Math.random() < .5;
+
+    if(currentAnomaly){
+
+      currentAnomalyType =
+        Math.floor(Math.random()*ANOMALY_NAMES.length);
+
+      applyAnomalyClass(page);
+
+    }else{
+
+      currentAnomalyType = -1;
+
+    }
+
+  }
+
+  page.innerHTML = createPage();
+
+  /*
+    CSS 클래스는 innerHTML 이후에도 유지
+  */
+
+  if(currentAnomaly){
+
+    applyAnomalyClass(page);
+
+    /*
+      스크롤형 이상현상
+    */
+
+    if([2,9,18,19].includes(currentAnomalyType)){
+
+      setupScrollAnomaly();
+
+    }
+
+    /*
+      불안한 연출도 무조건 이상현상
+    */
+
+    if(currentAnomalyType === 18){
+
+      setTimeout(()=>{
+        if(currentAnomaly && pageNumber > 0){
+          page.classList.add("screen-shake");
+        }
+      },1200);
+
+    }
+
+    if(currentAnomalyType === 19){
+
+      setTimeout(()=>{
+        if(currentAnomaly && pageNumber > 0){
+          page.classList.add("screen-flash");
+        }
+      },1800);
+
+    }
+
+  }
+
+  /*
+    페이지 0에서는 뒤로가기 금지
+  */
+
+  document.getElementById("backBtn").disabled =
+    pageNumber === 0;
+
+}
+
+
+/* =========================================================
+   PAGE HTML
+========================================================= */
+
+function createPage(){
+
+  return `
+
+    <div class="adHeader">
+
+      <div class="brand">
+        DAILY
+      </div>
+
+      <div class="adTag">
+        광고
+      </div>
+
+    </div>
+
+
+    <div class="hero">
+
+      <h2>
+        당신의 하루를<br>
+        조금 더 편하게
+      </h2>
+
+      <p>
+        매일 사용하는 제품을 더 간단하고 편리하게.
+        지금 새로운 라이프스타일을 만나보세요.
+      </p>
+
+
+      <div class="heroImage">
+
+        <div class="fakePerson">
+
+          <div class="fakeHead">
+
+            <div class="fakeEye eye1"></div>
+            <div class="fakeEye eye2"></div>
+
+            <div class="fakeMouth"></div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- 스크롤 후 나타나는 이상현상 -->
+
+      <div
+        id="scrollAnomaly"
+        class="scroll-anomaly"
+      ></div>
+
+    </div>
+
+
+    <div class="section">
+
+      <h3>
+        지금 인기 있는 제품
+      </h3>
+
+      <div class="cards">
+
+        <div class="card">
+
+          <div class="cardImage"></div>
+
+          <h4>
+            DAILY ONE
+          </h4>
+
+          <p>
+            심플하고 편리한 데일리 아이템
+          </p>
+
+          <div class="price">
+            29,000원
+          </div>
+
+        </div>
+
+
+        <div class="card">
+
+          <div class="cardImage"></div>
+
+          <h4>
+            DAILY AIR
+          </h4>
+
+          <p>
+            가볍고 편안한 새로운 경험
+          </p>
+
+          <div class="price">
+            49,000원
+          </div>
+
+        </div>
+
+
+        <div class="card">
+
+          <div class="cardImage"></div>
+
+          <h4>
+            DAILY MOVE
+          </h4>
+
+          <p>
+            어디서든 사용할 수 있는 제품
+          </p>
+
+          <div class="price">
+            39,000원
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="section">
+
+      <h3>
+        사용자 후기
+      </h3>
+
+
+      <div class="review">
+
+        <div class="stars">
+          ★★★★★
+        </div>
+
+        <p>
+          "생각보다 정말 편리해서 매일 사용하고 있어요."
+        </p>
+
+      </div>
+
+
+      <div class="review">
+
+        <div class="stars">
+          ★★★★☆
+        </div>
+
+        <p>
+          "디자인도 깔끔하고 사용하기 좋았습니다."
+        </p>
+
+      </div>
+
+
+      <div class="review">
+
+        <div class="stars">
+          ★★★★★
+        </div>
+
+        <p>
+          "친구에게도 추천하고 싶어요."
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div class="section">
+
+      <div class="bigAd">
+
+        <h3>
+          오늘만 특별한 혜택
+        </h3>
+
+        <p>
+          지금 확인하고 새로운 경험을 시작하세요.
+        </p>
+
+        <div class="buyBtn">
+          자세히 보기
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="section">
+
+      <h3>
+        DAILY가 특별한 이유
+      </h3>
+
+      <p style="line-height:1.8;color:#777">
+
+        필요한 기능만 담았습니다.<br>
+        복잡한 과정 없이 누구나 쉽게 사용할 수 있습니다.<br>
+        매일의 생활을 조금 더 편리하게 만들어보세요.
+
+      </p>
+
+    </div>
+
+
+    <div class="footer">
+
+      DAILY<br>
+      새로운 일상을 위한 브랜드<br><br>
+
+      이용약관　개인정보처리방침　고객센터
+
+    </div>
+
+  `;
+
+}
+
+
+/* =========================================================
+   APPLY ANOMALY
+========================================================= */
+
+function applyAnomalyClass(page){
+
+  const classes = [
+    "anomaly-red",
+    "anomaly-missing",
+    "anomaly-extra",
+    "anomaly-price",
+    "anomaly-review",
+    "anomaly-button",
+    "anomaly-title",
+    "anomaly-stars",
+    "anomaly-dark",
+    "anomaly-image",
+    "anomaly-font",
+    "anomaly-reverse",
+    "anomaly-empty",
+    "anomaly-duplicate",
+    "anomaly-small",
+    "anomaly-redtext",
+    "anomaly-footer",
+    "anomaly-number",
+    "anomaly-question",
+    "anomaly-face"
+  ];
+
+  if(currentAnomalyType >= 0){
+
+    page.classList.add(
+      classes[currentAnomalyType]
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   SCROLL ANOMALY
+========================================================= */
+
+function setupScrollAnomaly(){
+
+  const target =
+    document.getElementById("scrollAnomaly");
+
+  if(!target) return;
+
+
+  if(currentAnomalyType === 2){
+
+    target.innerHTML = `
+      <div class="scroll-strange-text">
+        이 광고를 보고 있는 사람이 있습니다.
+      </div>
+    `;
+
+  }
+
+
+  if(currentAnomalyType === 9){
+
+    target.innerHTML = `
+      <div class="scroll-strange-text">
+        방금까지 있던 사람이 없습니다.
+      </div>
+    `;
+
+    window.addEventListener(
+      "scroll",
+      scrollRevealHandler
+    );
+
+  }
+
+
+  if(currentAnomalyType === 18){
+
+    target.innerHTML = `
+      <div class="scroll-strange-text">
+        PAGE 0으로 돌아가세요.
+      </div>
+    `;
+
+    window.addEventListener(
+      "scroll",
+      scrollRevealHandler
+    );
+
+  }
+
+
+  if(currentAnomalyType === 19){
+
+    target.innerHTML = `
+      <div class="scroll-strange-text">
+        당신은 이 페이지를 보고 있습니다.
+      </div>
+    `;
+
+    window.addEventListener(
+      "scroll",
+      scrollRevealHandler
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   SCROLL HANDLER
+========================================================= */
+
+function scrollRevealHandler(){
+
+  if(
+    !gameStarted ||
+    !currentAnomaly ||
+    scrollTriggered
+  ){
+    return;
+  }
+
+  /*
+    페이지를 어느 정도 내려야 발견
+  */
+
+  if(window.scrollY > 650){
+
+    scrollTriggered = true;
+
+    const page =
+      document.getElementById("page");
+
+    page.classList.add("revealed");
+
+    /*
+      사람 사라짐
+    */
+
+    if(currentAnomalyType === 9){
+
+      const person =
+        document.querySelector(".fakePerson");
+
+      if(person){
+        person.style.display="none";
+      }
+
+    }
+
+    /*
+      이상현상 발견 연출
+    */
+
+    setTimeout(()=>{
+
+      if(currentAnomaly){
+
+        page.classList.add("screen-shake");
+
+      }
+
+    },300);
+
+  }
+
+}
+
+
+/* =========================================================
+   ANSWER
+========================================================= */
+
+function answer(back){
+
+  if(!gameStarted) return;
+
+
+  /*
+    PAGE 0
+  */
+
+  if(pageNumber === 0){
+
+    if(back){
+
+      showMessage(
+        "PAGE 0에서는 뒤로갈 수 없습니다."
+      );
+
+      return;
+
+    }
+
+    pageNumber = 1;
+    loadPage();
+
+    return;
+
+  }
+
+
+  /*
+    정상/이상현상 판정
+  */
+
+  const correct =
+    back === currentAnomaly;
+
+
+  if(correct){
+
+    pageNumber++;
+
+
+    /*
+      8페이지까지 성공
+    */
+
+    if(pageNumber > MAX_PAGE){
+
+      winGame();
+      return;
+
+    }
+
+
+    showMessage(
+      currentAnomaly
+      ? "이상현상 발견 ✓"
+      : "정상 페이지 ✓"
+    );
+
+
+    loadPage();
+
+
+  }else{
+
+    /*
+      틀리면 무조건 PAGE 0
+    */
+
+    showMessage(
+      "잘못된 선택입니다. PAGE 0부터 다시 시작합니다."
+    );
+
+    pageNumber = 0;
+
+    setTimeout(()=>{
+      loadPage();
+    },500);
+
+  }
+
+}
+
+
+/* =========================================================
+   WIN
+========================================================= */
+
+function winGame(){
+
+  gameStarted = false;
+
+  document.getElementById("game").style.display="none";
+  document.getElementById("controls").style.display="none";
+
+  document.getElementById("endScreen").style.display="flex";
+
+}
+
+
+/* =========================================================
+   MESSAGE
+========================================================= */
+
+let messageTimer;
+
+function showMessage(text){
+
+  const message =
+    document.getElementById("message");
+
+  message.textContent=text;
+  message.classList.add("show");
+
+  clearTimeout(messageTimer);
+
+  messageTimer =
+    setTimeout(()=>{
+      message.classList.remove("show");
+    },1400);
+
+}
+
+
+/* =========================================================
+   KEYBOARD
+========================================================= */
+
+document.addEventListener(
+  "keydown",
+  e => {
+
+    if(!gameStarted) return;
+
+    if(e.key === "ArrowLeft"){
+
+      answer(true);
+
+    }
+
+    if(e.key === "ArrowRight"){
+
+      answer(false);
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   CLEAN SCROLL EVENT
+========================================================= */
+
+window.addEventListener(
+  "scroll",
+  () => {
+
+    if(
+      gameStarted &&
+      currentAnomaly &&
+      [2,9,18,19].includes(currentAnomalyType)
+    ){
+
+      scrollRevealHandler();
+
+    }
+
+  }
+);
+
+</script>
+
+</body>
+</html>
